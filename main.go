@@ -44,9 +44,11 @@ func On(w http.ResponseWriter, req *http.Request) {
 	}
 	if check(paramVersion, valuePin) {
 		var pin = rpio.Pin(valuePin)
+		pin.Output()
 		pin.High()
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprintf(w, "light set On")
+
 	} else {
 		fmt.Fprintf(w, "error")
 	}
@@ -70,6 +72,7 @@ func Off(w http.ResponseWriter, req *http.Request) {
 	}
 	if check(paramVersion, valuePin) {
 		var pin = rpio.Pin(valuePin)
+		pin.Output()
 		pin.Low()
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprintf(w, "light set Off")
@@ -92,6 +95,7 @@ func main() {
 	}
 
 	defer rpio.Close()
+
 	router := mux.NewRouter()
 	router.HandleFunc("/test/", Test).Methods("GET")
 	router.HandleFunc("/on/", On).Methods("GET")
