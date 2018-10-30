@@ -14,7 +14,7 @@ import (
 )
 
 var supportV = map[string][]int{
-	"v1": []int{1, 4, 5, 6, 3, 2, 0, 7},
+	"v1": []int{1, 4, 5, 6, 3, 2, 0, 14},
 	"v2": []int{3, 5, 7, 11, 13, 15, 19, 21, 23, 29, 31, 33, 35, 37, 8, 10, 12, 16, 18, 22, 24, 26, 32, 36, 38, 40},
 	"v3": []int{3, 5, 7, 11, 13, 15, 19, 21, 23, 29, 31, 33, 35, 37, 8, 10, 12, 16, 18, 22, 24, 26, 32, 36, 38, 40},
 }
@@ -33,6 +33,8 @@ func check(key string, pin int) bool {
 	}
 	return false
 }
+
+// On function use for feed the corrent.
 func On(w http.ResponseWriter, req *http.Request) {
 	paramPin := req.URL.Query().Get("pin")
 	paramVersion := req.URL.Query().Get("ver")
@@ -45,6 +47,8 @@ func On(w http.ResponseWriter, req *http.Request) {
 		pin.High()
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprintf(w, "Fan Set to On")
+	} else {
+		fmt.Fprintf(w, "error")
 	}
 
 }
@@ -56,6 +60,7 @@ func Test(w http.ResponseWriter, req *http.Request) {
 
 }
 
+// Off function use for block the corrent.
 func Off(w http.ResponseWriter, req *http.Request) {
 	paramPin := req.URL.Query().Get("pin")
 	paramVersion := req.URL.Query().Get("ver")
@@ -68,7 +73,10 @@ func Off(w http.ResponseWriter, req *http.Request) {
 		pin.Low()
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprintf(w, "Fan Set to On")
+	} else {
+		fmt.Fprintf(w, "error")
 	}
+
 }
 
 func main() {
