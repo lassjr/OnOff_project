@@ -46,7 +46,7 @@ func On(w http.ResponseWriter, req *http.Request) {
 		var pin = rpio.Pin(valuePin)
 		pin.High()
 		w.WriteHeader(http.StatusOK)
-		fmt.Fprintf(w, "Fan Set to On")
+		fmt.Fprintf(w, "light set On")
 	} else {
 		fmt.Fprintf(w, "error")
 	}
@@ -72,7 +72,7 @@ func Off(w http.ResponseWriter, req *http.Request) {
 		var pin = rpio.Pin(valuePin)
 		pin.Low()
 		w.WriteHeader(http.StatusOK)
-		fmt.Fprintf(w, "Fan Set to On")
+		fmt.Fprintf(w, "light set Off")
 	} else {
 		fmt.Fprintf(w, "error")
 	}
