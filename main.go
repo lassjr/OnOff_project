@@ -88,5 +88,5 @@ func main() {
 	router.HandleFunc("/test/", Test).Methods("GET")
 	router.HandleFunc("/on/", On).Methods("GET")
 	router.HandleFunc("/off/", Off).Methods("GET")
-	log.Fatal(http.ListenAndServe(":4044", router))
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
