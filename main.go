@@ -35,15 +35,16 @@ func check(key string, pin int) bool {
 }
 func On(w http.ResponseWriter, req *http.Request) {
 	paramPin := req.URL.Query().Get("pin")
-	paramVersion := req.URL.Query().Get("version")
+	paramVersion := req.URL.Query().Get("ver")
 	valuePin, error := strconv.Atoi(paramPin)
-	if error == nil {
-		if check(paramVersion, valuePin) {
-			var pin = rpio.Pin(valuePin)
-			pin.High()
-			w.WriteHeader(http.StatusOK)
-			fmt.Fprintf(w, "Fan Set to On")
-		}
+	if error != nil {
+		os.Exit(1)
+	}
+	if check(paramVersion, valuePin) {
+		var pin = rpio.Pin(valuePin)
+		pin.High()
+		w.WriteHeader(http.StatusOK)
+		fmt.Fprintf(w, "Fan Set to On")
 	}
 
 }
@@ -57,15 +58,16 @@ func Test(w http.ResponseWriter, req *http.Request) {
 
 func Off(w http.ResponseWriter, req *http.Request) {
 	paramPin := req.URL.Query().Get("pin")
-	paramVersion := req.URL.Query().Get("version")
+	paramVersion := req.URL.Query().Get("ver")
 	valuePin, error := strconv.Atoi(paramPin)
-	if error == nil {
-		if check(paramVersion, valuePin) {
-			var pin = rpio.Pin(valuePin)
-			pin.Low()
-			w.WriteHeader(http.StatusOK)
-			fmt.Fprintf(w, "Fan Set to On")
-		}
+	if error != nil {
+		os.Exit(1)
+	}
+	if check(paramVersion, valuePin) {
+		var pin = rpio.Pin(valuePin)
+		pin.Low()
+		w.WriteHeader(http.StatusOK)
+		fmt.Fprintf(w, "Fan Set to On")
 	}
 }
 
@@ -84,7 +86,7 @@ func main() {
 	defer rpio.Close()
 	router := mux.NewRouter()
 	router.HandleFunc("/test/", Test).Methods("GET")
-	router.HandleFunc("/fan-on/", On).Methods("GET")
-	router.HandleFunc("/fan-off/", Off).Methods("GET")
+	router.HandleFunc("/on/", On).Methods("GET")
+	router.HandleFunc("/off/", Off).Methods("GET")
 	log.Fatal(http.ListenAndServe(":4044", router))
 }
