@@ -13,18 +13,20 @@ import (
 	"github.com/stianeikeland/go-rpio"
 )
 
-var supportV = map[string][]int{
+var SupportV = map[string][]int{
 	"v1": []int{2, 3, 4, 7, 8, 9, 10, 11, 14, 15, 17, 18, 22, 23, 24, 25, 27},
 	"v2": []int{3, 5, 7, 11, 13, 15, 19, 21, 23, 29, 31, 33, 35, 37, 8, 10, 12, 16, 18, 22, 24, 26, 32, 36, 38, 40},
 	"v3": []int{3, 5, 7, 11, 13, 15, 19, 21, 23, 29, 31, 33, 35, 37, 8, 10, 12, 16, 18, 22, 24, 26, 32, 36, 38, 40},
 }
+var OffResult string = "light set Off"
+var OnResult string = "light set On"
 
 func check(key string, pin int) bool {
-	keys := reflect.ValueOf(supportV).MapKeys()
+	keys := reflect.ValueOf(SupportV).MapKeys()
 
 	for _, value := range keys {
 		if key == reflect.Value(value).String() {
-			for _, value1 := range supportV[key] {
+			for _, value1 := range SupportV[key] {
 				if pin == value1 {
 					return true
 				}
@@ -47,7 +49,8 @@ func On(w http.ResponseWriter, req *http.Request) {
 		pin.Output()
 		pin.High()
 		w.WriteHeader(http.StatusOK)
-		fmt.Fprintf(w, "light set On")
+		fmt.Fprintf(w, OnResult)
+		fmt.Println(OnResult)
 
 	} else {
 		fmt.Fprintf(w, "error")
@@ -75,7 +78,8 @@ func Off(w http.ResponseWriter, req *http.Request) {
 		pin.Output()
 		pin.Low()
 		w.WriteHeader(http.StatusOK)
-		fmt.Fprintf(w, "light set Off")
+		fmt.Fprintf(w, OffResult)
+		fmt.Println(OffResult)
 	} else {
 		fmt.Fprintf(w, "error")
 	}
